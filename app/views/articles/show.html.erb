@@ -2,3 +2,26 @@
 <p><%= @article.body %></p>
 <%= link_to "Edit article", edit_article_path(@article) %>
 <%= link_to "Destroy article", article_path(@article), method: :delete %>
+
+<h2>Add a comment:</h2>
+<%= form_with model: [ @article, @article.comments.build] do |form| %>
+    <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+    </p>
+    <p>
+    <%= form.label :body %><br>
+    <%= form.text_field :body %>
+    </p>
+    <p>
+        <%= form.submit %>
+    </p>
+<% end %>
+
+<h2>Comments:</h2>
+<% @article.comments.each do |comment| %>
+    <p>
+        <%= comment.commenter %><br>
+        <%= comment.body %>
+    </p>
+<% end %>
