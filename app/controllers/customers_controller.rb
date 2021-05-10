@@ -3,15 +3,7 @@ require 'pp'
 
 class CustomersController < ApplicationController
   def new
-
-    client = GoCardlessPro::Client.new(
-      # We recommend storing your access token in an environment
-      # variable for security
-      access_token: ENV['GC_ACCESS_TOKEN'],
-      # Remove the following line when you're ready to go live
-      environment: :sandbox
-    )
-
+    client = helpers.get_client
     redirect_flow = client.redirect_flows.create(
       params: {
         description: 'Lager Kegs', # This will be shown on the payment pages
@@ -27,45 +19,22 @@ class CustomersController < ApplicationController
         }
       }
     )
-
     @redirect_url = redirect_flow.redirect_url
     @flow_id = redirect_flow.id
   end
 
   def create
-    client = GoCardlessPro::Client.new(
-      # We recommend storing your access token in an environment
-      # variable for security
-      access_token: ENV['GC_ACCESS_TOKEN'],
-      # Remove the following line when you're ready to go live
-      environment: :sandbox
-    )
-
-    pp params
-
+    client = helpers.get_client
     redirect_flow = client.redirect_flows.complete(
       params["flow"]["id"], # The redirect flow ID from above.
       params: { session_token: 'dummy_session_token' })
-
     pp redirect_flow
-
     redirect_to customers_path
-
-
   end
 
   def index
-
-    client = GoCardlessPro::Client.new(
-      # We recommend storing your access token in an environment
-      # variable for security
-      access_token: ENV['GC_ACCESS_TOKEN'],
-      # Remove the following line when you're ready to go live
-      environment: :sandbox
-    )
-
+    client = helpers.get_client
     @customers = client.customers.list.records
-
     pp @customers
   end
 end
