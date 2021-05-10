@@ -1,0 +1,11 @@
+<h1>Customers#index</h1>
+<ul>
+    <% @customers.each do |customer| %>
+        <li>
+        <a href="<%= customer_path(customer) %>">
+        <%= customer.email %>
+        </a>
+        </li>
+    <% end %>
+</ul>
+<%= link_to "New customer", new_customer_path %>

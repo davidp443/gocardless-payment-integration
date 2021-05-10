@@ -1,0 +1,16 @@
+<h1>New customer</h1>
+<p>
+Send your payer to: <%= link_to @redirect_url, @redirect_url %>
+</p>
+<p>
+Then validate
+<%= form_with scope: :flow, url: customers_path do |form| %>
+  <div>
+    <%= form.label :id %><br>
+    <%= form.text_field :id,value: @flow_id %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+</p>
